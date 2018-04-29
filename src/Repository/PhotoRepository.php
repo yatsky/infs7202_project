@@ -19,6 +19,10 @@ class PhotoRepository extends ServiceEntityRepository
         parent::__construct($registry, Photo::class);
     }
 
+    public function tryMe(): array
+    {
+        return array("a" => "photo1", "b" => "photo2");
+    }
 //    /**
 //     * @return Photo[] Returns an array of Photo objects
 //     */

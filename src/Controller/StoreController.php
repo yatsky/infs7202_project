@@ -8,10 +8,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Photo;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StoreController extends BaseController
 {
+    private $cart;
+
+    protected function start()
+    {
+        parent::start();
+        $this->cart = $this->getDoctrine()->getRepository(Photo::class)->tryMe();
+    }
 
     /**
      * @return mixed
@@ -20,6 +28,7 @@ class StoreController extends BaseController
     public function showStore()
     {
         $this->start();
-        return $this->render("store.html.twig", array("navs"=>$this->navs, "imgs"=>$this->imgs));
+        return $this->render("store.html.twig", array("navs" => $this->navs, "imgs" => $this->imgs,
+            "cart" => $this->cart));
     }
 }
