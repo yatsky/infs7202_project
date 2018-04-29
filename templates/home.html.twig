@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <header>
+        <div class="nav">
+            <ul>
+                {% for nav in navs %}
+                    <li><a href="{{ nav | lower }}">{{ nav }}</a></li>
+                {% endfor  %}
+            </ul>
+        </div>
+    </header>
+
+    <article>
+        {% for img in imgs %}
+            <img src="{{ img }}" align="{{ img }}">
+        {% endfor %}
+    </article>
+{% endblock %}
