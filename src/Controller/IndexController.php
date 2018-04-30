@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Photo;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends BaseController
@@ -21,6 +22,8 @@ class IndexController extends BaseController
     public function showIndex()
     {
         $this->start();
+        $photoRepo = $this->getDoctrine()->getRepository(Photo::class);
+        $this->imgs = $photoRepo->loadSomePhotos(10);
         return $this->render("home.html.twig", array("navs"=>$this->navs, "imgs"=>$this->imgs));
     }
 

@@ -19,6 +19,22 @@ class PhotoRepository extends ServiceEntityRepository
         parent::__construct($registry, Photo::class);
     }
 
+    /**
+     * Load and return all photos that have id <= numPhotos
+     * @param int $numPhotos number of photos to be loaded.
+     * @return array First numPhotos photos
+     */
+    public function loadSomePhotos(int $numPhotos): array
+    {
+//        $first100Photos = array();
+        return $this->createQueryBuilder("photo")
+            ->andWhere("photo.id <= :val")
+            ->setParameter("val", $numPhotos)
+            ->orderBy("photo.id")
+            ->getQuery()
+            ->getArrayResult();
+    }
+
     public function tryMe(): array
     {
         return array("a" => "photo1", "b" => "photo2");
