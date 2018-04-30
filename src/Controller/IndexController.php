@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use App\Entity\Photo;
+use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -36,27 +37,17 @@ class IndexController extends BaseController
     {
         return $this->redirectToRoute("index");
     }
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/about", name="about")
-     */
-    public function showAbout()
-    {
-        $this->start();
-        return $this->render("about.html.twig");
-    }
 
     /**
-     * @Route("/removeAll", name="remove_all")
+     * @Route("signin", name="sign_in")
      */
-    public function deleteAllPhotos()
+    public function signIn()
     {
-        $em = $this->getDoctrine()->getManager();
-        $photos = $em->getRepository(Photo::class);
-        foreach ($photos as $photo) {
-            $em->remove($photo);
-        }
-        $em->flush();
-        return new Response("you deleted all photos.");
+        $this->start();
+        $form = $this->createForm(UserType::class);
+        return $this->render("register.html.twig", array(
+            'form' => $form->createView(),
+            'navs' => $this->navs
+        ));
     }
 }

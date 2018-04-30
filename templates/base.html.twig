@@ -18,14 +18,34 @@
     <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">Logo</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <a href="/" class="brand-logo">Phoit</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
                 {% for nav in navs %}
+                    {% if " " in nav %}
+                        {% set temp =  nav | replace({' ':''}) | lower %}
+                    {% else %}
+                        {% set temp = nav %}
+                    {% endif %}
                     <li><a href="{{ nav | lower }}">{{ nav }}</a></li>
                 {% endfor %}
             </ul>
         </div>
     </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        <a href="/" class="brand-logo">Phoit</a>
+        {% for nav in navs %}
+            {% if " " in nav %}
+                {% set temp =  nav | replace({' ':''}) | lower %}
+            {% else %}
+                {% set temp = nav %}
+            {% endif %}
+            <li><a href="{{ nav | lower }}">{{ nav }}</a></li>
+        {% endfor %}
+    </ul>
+
+
     <div class="container">
         {% block body %}{% endblock %}
     </div>
@@ -36,6 +56,10 @@
                 //initialize select options in forms
                 $(document).ready(function () {
                     $('select').formSelect();
+                });
+                //initialize sidenav
+                $(document).ready(function () {
+                    $('.sidenav').sidenav();
                 });
             </script>
         {% endblock %}
