@@ -3,10 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Phoit - The ultimate website to share your photos and more!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <!--Import Google Icon Font-->
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <!--Import materialize.css-->
+            <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css" media="screen,projection"/>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <!--Let browser know website is optimized for mobile-->
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        {% endblock %}
     </head>
     <body>
+
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <!--JavaScript at end of body for optimized loading-->
+            <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+            <script>
+                //initialize select options in forms
+                $(document).ready(function () {
+                    $('select').formSelect();
+                });
+            </script>
+        {% endblock %}
     </body>
 </html>
