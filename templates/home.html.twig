@@ -13,7 +13,7 @@
 
     <article>
         {% for img in imgs %}
-            <img src="{{ img }}" alt="{{ img }}">
+            <img src="{{ vich_uploader_asset(img, 'imageFile') }}" alt="{{ img.getPhotoName }}">
         {% endfor %}
     </article>
 {% endblock %}
