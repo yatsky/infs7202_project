@@ -27,12 +27,18 @@ class PhotoRepository extends ServiceEntityRepository
     public function loadSomePhotos(int $numPhotos): array
     {
 //        $first100Photos = array();
-        return $this->createQueryBuilder("photo")
+        $qb = $this->createQueryBuilder("photo")
             ->andWhere("photo.id <= :val")
             ->setParameter("val", $numPhotos)
             ->orderBy("photo.id")
-            ->getQuery()
-            ->getArrayResult();
+            ->getQuery();
+
+        $photos = $qb->execute();
+        $imgs = array();
+        foreach ($photos as $photo) {
+            array_push($imgs, $photo->getPhotoName());
+        }
+        return $imgs;
     }
 
     public function tryMe(): array
