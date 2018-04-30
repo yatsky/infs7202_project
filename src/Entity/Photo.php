@@ -278,4 +278,9 @@ class Photo
     {
         return $this->imageSize;
     }
+
+    public function getUpdateTime(): \DateTime
+    {
+        return $this->updatedAt;
+    }
 }

@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use App\Entity\Photo;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends BaseController
@@ -17,7 +18,7 @@ class IndexController extends BaseController
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/", name="index")
+     * @Route("/home", name="index")
      */
     public function showIndex()
     {
@@ -28,6 +29,14 @@ class IndexController extends BaseController
     }
 
     /**
+     * @Route("/")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectHome()
+    {
+        return $this->redirectToRoute("index");
+    }
+    /**
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/about", name="about")
      */
@@ -37,4 +46,17 @@ class IndexController extends BaseController
         return $this->render("about.html.twig");
     }
 
+    /**
+     * @Route("/removeAll", name="remove_all")
+     */
+    public function deleteAllPhotos()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $photos = $em->getRepository(Photo::class);
+        foreach ($photos as $photo) {
+            $em->remove($photo);
+        }
+        $em->flush();
+        return new Response("you deleted all photos.");
+    }
 }

@@ -20,11 +20,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UserController extends BaseController
 {
-
-
+    public function logIn()
+    {
+        return null;
+    }
     /**
-     * @Route("/user/{id}", name="user", requirements={"id"="\d+"})
      * @param $id
+     * @return Response
+     * @Route("/user/{id}", name="user", requirements={"id"="\d+"})
      */
     public function showUserIndex($id)
     {
@@ -51,7 +54,7 @@ class UserController extends BaseController
             $user->setRegisterDate($form->get('registerDate')->getData());
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute("index");
+            return new Response("You've created a new user! User ID: " . $user->getId());
         }
         return $this->render("user.html.twig", array(
             'form' => $form->createView()
@@ -63,9 +66,9 @@ class UserController extends BaseController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @Route("/user/{id}/new-photo", name="new_photo")
      */
-    public function newPhoto(Request $request)
+    public function newPhoto(Request $request, $id)
     {
-        //get current user
+
 
         //build the form
         $photo = new Photo();
@@ -74,30 +77,47 @@ class UserController extends BaseController
         // handle the form submission
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //get current user
+            $users = $this->getDoctrine()->getRepository(User::class);
+            $cUser = $users->findOneBy(array('id' => intval($id)));
+            $photo->setOwner($cUser);
+            $photo->setPhotoName($form->get('photo_name')->getData());
+            $photo->setImageName($form->get('imageName')->getData());
+            $photo->setImageSize($form->get('imageSize')->getData());
+            $photo->setUploadDate($form->get('upload_date')->getData());
+            $photo->setPath($form->get('path')->getData());
+            $photo->setPrice($form->get('price')->getData());
+            $photo->setImageFile($form->get('imageFile')->getData());
             $em = $this->getDoctrine()->getManager();
             $em->persist($photo);
             $em->flush();
-            return $this->redirectToRoute("index");
+            return new Response("You've uploaded a new photo! Photo name: " . $photo->getPhotoName());
         }
-
+        $this->start();
         return $this->render("user.html.twig", array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'navs' => $this->navs
         ));
 
     }
 
 
+    public function addComment($id)
+    {
+
+    }
     /**
-     * Add one photo the the database.
-     * @param Photo $photo
+     * @param $id
      * @return Response
+     * @Route("/user/{user_id}/delete/{id}", name="delete_one", requirements={"id"="\d+"})
      */
-    public function addPhoto(Photo $photo)
+    public function deleteOnePhoto($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->persist($photo);
+        $repo = $this->getDoctrine()->getRepository(Photo::class);
+        $photo = $repo->findOneBy(['id' => $id]);
+        $em->remove($photo);
         $em->flush();
-
-        return new Response("New photo (" . $photo->getPhotoName() . ") added!");
+        return new Response("You deleted one photo. " . $photo->getPhotoName());
     }
 }

@@ -1,19 +1,6 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <header>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Logo</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    {% for nav in navs %}
-                        <li><a href="{{ nav | lower }}">{{ nav }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </nav>
-    </header>
-
     <article>
         {% for img in imgs %}
             <div class="card-image">

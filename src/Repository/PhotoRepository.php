@@ -34,17 +34,9 @@ class PhotoRepository extends ServiceEntityRepository
             ->getQuery();
 
         $photos = $qb->execute();
-        $imgs = array();
-        foreach ($photos as $photo) {
-            array_push($imgs, $photo->getPhotoName());
-        }
-        return $imgs;
+        return $photos;
     }
 
-    public function tryMe(): array
-    {
-        return array("a" => "photo1", "b" => "photo2");
-    }
 //    /**
 //     * @return Photo[] Returns an array of Photo objects
 //     */

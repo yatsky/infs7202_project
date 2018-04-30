@@ -13,9 +13,11 @@ use App\Entity\Photo;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class PhotoType extends AbstractType
 {
@@ -23,9 +25,12 @@ class PhotoType extends AbstractType
     {
         $builder
             ->add('photo_name', TextType::class)
+            ->add('imageName', TextType::class)
+            ->add('imageSize', IntegerType::class)
             ->add('upload_date', DateTimeType::class)
-            ->add('owner', TextType::class)
-            ->add('path', TextType::class);
+            ->add('path', TextType::class)
+            ->add('price', IntegerType::class)
+            ->add('imageFile', FileType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
