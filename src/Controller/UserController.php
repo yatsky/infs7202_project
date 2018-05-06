@@ -82,7 +82,6 @@ class UserController extends BaseController
             $cUser = $users->findOneBy(array('id' => intval($id)));
             $photo->setOwner($cUser);
             $photo->setImageName($form->get('imageName')->getData());
-            $photo->setImageSize($form->get('imageSize')->getData());
             $photo->setPrice($form->get('price')->getData());
             $photo->setImageFile($form->get('imageFile')->getData());
             $em = $this->getDoctrine()->getManager();
