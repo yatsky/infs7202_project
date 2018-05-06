@@ -32,6 +32,10 @@ class UserController extends BaseController
     public function showUserIndex($id)
     {
         parent::start();
+        $users = $this->getDoctrine()->getRepository(User::class);
+        if ($users->findOneBy(array('id' => $id)) == null) {
+            return new Response("No such user!");
+        }
         return $this->render("home.html.twig", array(
             'navs' => $this->navs, 'imgs' => $this->imgs
         ));
@@ -44,20 +48,21 @@ class UserController extends BaseController
      */
     public function newUser(Request $request)
     {
+        $this->start();
         $user = new User();
         $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $user->setName($form->get('name')->getData());
-            $user->setAcctBalance($form->get('acctBalance')->getData());
-            $user->setRegisterDate($form->get('registerDate')->getData());
+            $user->setUserName($form->get('userName')->getData());
+            $user->setAccountBalance($form->get('accountBalance')->getData());
             $em->persist($user);
             $em->flush();
             return new Response("You've created a new user! User ID: " . $user->getId());
         }
         return $this->render("user.html.twig", array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'navs' => $this->navs
         ));
     }
 
@@ -69,7 +74,6 @@ class UserController extends BaseController
     public function newPhoto(Request $request, $id)
     {
 
-
         //build the form
         $photo = new Photo();
         $form = $this->createForm(PhotoType::class, $photo);
@@ -79,11 +83,11 @@ class UserController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             //get current user
             $users = $this->getDoctrine()->getRepository(User::class);
-            $cUser = $users->findOneBy(array('id' => intval($id)));
-            $photo->setOwner($cUser);
+            $cUser = $users->findOneBy(array('id' => $id));
+            $photo->setImageFile($form->get('imageFile')->getData());
             $photo->setImageName($form->get('imageName')->getData());
             $photo->setPrice($form->get('price')->getData());
-            $photo->setImageFile($form->get('imageFile')->getData());
+            $photo->setImageSize($form->get('imageSize')->getData());
             $photo->setOwner($cUser);
             $em = $this->getDoctrine()->getManager();
             $em->persist($photo);

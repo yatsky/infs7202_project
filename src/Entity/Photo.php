@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -26,28 +24,11 @@ class Photo
      */
     private $price;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="photos")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="photo")
-     */
-    private $comments;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="liked_photos")
-     */
-    private $users;
-
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-        $this->users = new ArrayCollection();
-    }
 
     public function getId()
     {
@@ -79,64 +60,6 @@ class Photo
         return $this;
     }
 
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setPhoto($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getPhoto() === $this) {
-                $comment->setPhoto(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addLikedPhoto($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeLikedPhoto($this);
-        }
-
-        return $this;
-    }
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
