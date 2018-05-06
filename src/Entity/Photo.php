@@ -22,11 +22,6 @@ class Photo
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $upload_date;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $price;
@@ -59,17 +54,6 @@ class Photo
         return $this->id;
     }
 
-    public function getUploadDate(): ?\DateTimeInterface
-    {
-        return $this->upload_date;
-    }
-
-    public function setUploadDate(\DateTimeInterface $upload_date): self
-    {
-        $this->upload_date = $upload_date;
-
-        return $this;
-    }
 
     public function getPrice(): ?int
     {
