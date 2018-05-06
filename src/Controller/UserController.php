@@ -84,6 +84,7 @@ class UserController extends BaseController
             $photo->setImageName($form->get('imageName')->getData());
             $photo->setPrice($form->get('price')->getData());
             $photo->setImageFile($form->get('imageFile')->getData());
+            $photo->setOwner($cUser);
             $em = $this->getDoctrine()->getManager();
             $em->persist($photo);
             $em->flush();
