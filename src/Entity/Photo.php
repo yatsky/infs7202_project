@@ -22,11 +22,6 @@ class Photo
     private $id;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $photo_name;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $upload_date;
@@ -62,18 +57,6 @@ class Photo
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getPhotoName(): ?string
-    {
-        return $this->photo_name;
-    }
-
-    public function setPhotoName(string $photo_name): self
-    {
-        $this->photo_name = $photo_name;
-
-        return $this;
     }
 
     public function getUploadDate(): ?\DateTimeInterface

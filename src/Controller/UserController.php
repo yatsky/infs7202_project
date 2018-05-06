@@ -81,17 +81,14 @@ class UserController extends BaseController
             $users = $this->getDoctrine()->getRepository(User::class);
             $cUser = $users->findOneBy(array('id' => intval($id)));
             $photo->setOwner($cUser);
-            $photo->setPhotoName($form->get('photo_name')->getData());
             $photo->setImageName($form->get('imageName')->getData());
             $photo->setImageSize($form->get('imageSize')->getData());
-            $photo->setUploadDate($form->get('upload_date')->getData());
-            $photo->setPath($form->get('path')->getData());
             $photo->setPrice($form->get('price')->getData());
             $photo->setImageFile($form->get('imageFile')->getData());
             $em = $this->getDoctrine()->getManager();
             $em->persist($photo);
             $em->flush();
-            return new Response("You've uploaded a new photo! Photo name: " . $photo->getPhotoName());
+            return new Response("You've uploaded a new photo! Photo name: " . $photo->getImageName());
         }
         $this->start();
         return $this->render("user.html.twig", array(
