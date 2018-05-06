@@ -26,9 +26,7 @@ class PhotoType extends AbstractType
         $builder
             ->add('photo_name', TextType::class)
             ->add('imageName', TextType::class)
-            ->add('imageSize', IntegerType::class)
             ->add('upload_date', DateTimeType::class)
-            ->add('path', TextType::class)
             ->add('price', IntegerType::class)
             ->add('imageFile', FileType::class);
     }

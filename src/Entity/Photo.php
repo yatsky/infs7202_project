@@ -27,11 +27,6 @@ class Photo
     private $photo_name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $path;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $upload_date;
@@ -41,10 +36,6 @@ class Photo
      */
     private $price;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $size;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="photos")
@@ -85,18 +76,6 @@ class Photo
         return $this;
     }
 
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
-    public function setPath(string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
     public function getUploadDate(): ?\DateTimeInterface
     {
         return $this->upload_date;
@@ -117,18 +96,6 @@ class Photo
     public function setPrice(int $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getSize(): ?string
-    {
-        return $this->size;
-    }
-
-    public function setSize(?string $size): self
-    {
-        $this->size = $size;
 
         return $this;
     }
