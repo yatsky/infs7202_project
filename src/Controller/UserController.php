@@ -12,11 +12,9 @@ use App\Entity\Photo;
 use App\Entity\User;
 use App\Form\PhotoType;
 use App\Form\UserType;
-use Doctrine\ORM\Query\Expr\Base;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UserController extends BaseController
 {

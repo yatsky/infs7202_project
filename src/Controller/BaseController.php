@@ -10,6 +10,8 @@ namespace App\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends Controller
 {
@@ -25,6 +27,15 @@ class BaseController extends Controller
         // array of images (links) to be fetched from the database.
 //        $this->imgs= array("https://ia.media-imdb.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SY1000_CR0,0,674,1000_AL_.jpg");
 
+    }
+
+    /**
+     * @Route("/admin")
+     * @return Response
+     */
+    public function admin()
+    {
+        return new Response('<html><body>Admin page!</body></html>');
     }
 
 }
