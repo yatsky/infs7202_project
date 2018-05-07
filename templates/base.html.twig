@@ -16,24 +16,27 @@
     </head>
 
     <body>
-    <nav>
-        <div class="nav-wrapper">
-            <a href="/" class="brand-logo">Phoit</a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                {% for nav in navs %}
-                    {% if " " in nav %}
-                        {% set temp =  nav | replace({' ':''}) | lower %}
-                    {% else %}
-                        {% set temp = nav %}
-                    {% endif %}
-                    <li><a href="{{ nav | lower }}">{{ nav }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    </nav>
+    <div class="navbar-fixed ">
+        <nav class="cyan darken-4">
 
-    <ul class="sidenav" id="mobile-demo">
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">Phoit</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    {% for nav in navs %}
+                        {% if " " in nav %}
+                            {% set temp =  nav | replace({' ':''}) | lower %}
+                        {% else %}
+                            {% set temp = nav %}
+                        {% endif %}
+                        <li><a href="/{{ temp | lower }}">{{ temp }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <ul class="sidenav fixed" id="mobile-demo">
         <a href="/" class="brand-logo">Phoit</a>
         {% for nav in navs %}
             {% if " " in nav %}
@@ -41,7 +44,7 @@
             {% else %}
                 {% set temp = nav %}
             {% endif %}
-            <li><a href="{{ nav | lower }}">{{ nav }}</a></li>
+            <li><a href="{{ temp | lower }}">{{ temp }}</a></li>
         {% endfor %}
     </ul>
 

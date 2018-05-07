@@ -22,9 +22,8 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('registerDate', DateTimeType::class)
-            ->add('acctBalance', IntegerType::class);
+            ->add('userName', TextType::class)
+            ->add('accountBalance', IntegerType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

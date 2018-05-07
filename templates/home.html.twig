@@ -4,12 +4,12 @@
     <article>
         {% for img in imgs %}
             <div class="card-image">
-                <h1>{{ img.getPhotoName }}</h1>
+                <h1>{{ img.getImageName }}</h1>
                 <img src="{{ vich_uploader_asset(img, 'imageFile') }}" alt="{{ img.getUpdateTime | date('Y-m-d') }}"
                      style="width: 100%">
                 <ul>
-                    {% for comment in img.getComments %}
-                        <li>{{ comment }}</li>
+                    {% for name in img.getImageName %}
+                        <li>{{ Name | upper }}</li>
                     {% endfor %}
                 </ul>
             </div>

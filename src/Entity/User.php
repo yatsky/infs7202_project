@@ -21,38 +21,21 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $register_date;
+    private $user_name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $acct_balance;
+    private $account_balance;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="owner")
      */
     private $photos;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
-     */
-    private $comments;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Photo", inversedBy="users")
-     */
-    private $liked_photos;
-
     public function __construct()
     {
         $this->photos = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        $this->liked_photos = new ArrayCollection();
     }
 
     public function getId()
@@ -60,38 +43,26 @@ class User
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getUserName(): ?string
     {
-        return $this->name;
+        return $this->user_name;
     }
 
-    public function setName(string $name): self
+    public function setUserName(string $user_name): self
     {
-        $this->name = $name;
+        $this->user_name = $user_name;
 
         return $this;
     }
 
-    public function getRegisterDate(): ?\DateTimeInterface
+    public function getAccountBalance(): ?int
     {
-        return $this->register_date;
+        return $this->account_balance;
     }
 
-    public function setRegisterDate(\DateTimeInterface $register_date): self
+    public function setAccountBalance(int $account_balance): self
     {
-        $this->register_date = $register_date;
-
-        return $this;
-    }
-
-    public function getAcctBalance(): ?int
-    {
-        return $this->acct_balance;
-    }
-
-    public function setAcctBalance(int $acct_balance): self
-    {
-        $this->acct_balance = $acct_balance;
+        $this->account_balance = $account_balance;
 
         return $this;
     }
@@ -122,63 +93,6 @@ class User
             if ($photo->getOwner() === $this) {
                 $photo->setOwner(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Photo[]
-     */
-    public function getLikedPhotos(): Collection
-    {
-        return $this->liked_photos;
-    }
-
-    public function addLikedPhoto(Photo $likedPhoto): self
-    {
-        if (!$this->liked_photos->contains($likedPhoto)) {
-            $this->liked_photos[] = $likedPhoto;
-        }
-
-        return $this;
-    }
-
-    public function removeLikedPhoto(Photo $likedPhoto): self
-    {
-        if ($this->liked_photos->contains($likedPhoto)) {
-            $this->liked_photos->removeElement($likedPhoto);
         }
 
         return $this;
