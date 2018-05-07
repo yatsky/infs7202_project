@@ -25,7 +25,7 @@
                 <ul class="right hide-on-med-and-down">
                     {% for nav in navs %}
                         {% if " " in nav %}
-                            {% set temp =  nav | replace({' ':''}) | lower %}
+                            {% set temp =  nav | replace({' ':''}) %}
                         {% else %}
                             {% set temp = nav %}
                         {% endif %}
@@ -40,7 +40,7 @@
         <a href="/" class="brand-logo">Phoit</a>
         {% for nav in navs %}
             {% if " " in nav %}
-                {% set temp =  nav | replace({' ':''}) | lower %}
+                {% set temp =  nav | replace({' ':''}) %}
             {% else %}
                 {% set temp = nav %}
             {% endif %}
