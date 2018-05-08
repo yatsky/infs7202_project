@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Phoit - The ultimate website to share your photos and more!{% endblock %}</title>
         {% block stylesheets %}
+            <link rel="favourite icon" href="/images/favicon.PNG" type="image/x-icon"/>
             <!--Import Google Icon Font-->
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <!--Import materialize.css-->
@@ -29,7 +30,7 @@
                         {% else %}
                             {% set temp = nav %}
                         {% endif %}
-                        <li><a href="/{{ temp | lower }}">{{ temp }}</a></li>
+                        <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -44,7 +45,7 @@
             {% else %}
                 {% set temp = nav %}
             {% endif %}
-            <li><a href="{{ temp | lower }}">{{ temp }}</a></li>
+            <li><a href="{{ temp | lower }}">{{ nav }}</a></li>
         {% endfor %}
     </ul>
 
