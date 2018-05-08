@@ -18,7 +18,6 @@ class StoreController extends BaseController
     protected function start()
     {
         parent::start();
-        $this->cart = $this->getDoctrine()->getRepository(Photo::class)->tryMe();
     }
 
     /**
@@ -28,7 +27,6 @@ class StoreController extends BaseController
     public function showStore()
     {
         $this->start();
-        return $this->render("store.html.twig", array("navs" => $this->navs, "imgs" => $this->imgs,
-            "cart" => $this->cart));
+        return $this->render("store.html.twig", array("navs" => $this->navs, "imgs" => $this->imgs));
     }
 }
