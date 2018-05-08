@@ -19,20 +19,21 @@
     <body>
     <div class="navbar-fixed ">
         <nav class="cyan darken-4">
-
-            <div class="nav-wrapper">
-                <a href="/" class="brand-logo">Phoit</a>
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
-                    {% for nav in navs %}
-                        {% if " " in nav %}
-                            {% set temp =  nav | replace({' ':''}) %}
-                        {% else %}
-                            {% set temp = nav %}
-                        {% endif %}
-                        <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
-                    {% endfor %}
-                </ul>
+            <div class="container"> <!-- limit the nav bar-->
+                <div class="nav-wrapper">
+                    <a href="/" class="brand-logo">Phoit</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        {% for nav in navs %}
+                            {% if " " in nav %}
+                                {% set temp =  nav | replace({' ':''}) %}
+                            {% else %}
+                                {% set temp = nav %}
+                            {% endif %}
+                            <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </nav>
     </div>
