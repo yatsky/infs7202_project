@@ -55,7 +55,7 @@ class SecurityController extends BaseController
 //            $em->flush();
 //            return new Response("You've created a new user! User ID: " . $user->getUsername());
 //        }
-        return $this->render("user_index.html.twig", array(
+        return $this->render("security/register.html.twig", array(
             'form' => $form->createView(),
             'navs' => $this->navs
         ));
