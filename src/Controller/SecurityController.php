@@ -43,7 +43,8 @@ class SecurityController extends BaseController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            return new Response("You've registered! Your email is: " . $user->getEmail());
+            return $this->redirectToRoute('signin');
+//            return new Response("You've registered! Your email is: " . $user->getEmail());
         }
 
 //        if ($form->isSubmitted() && $form->isValid()) {
