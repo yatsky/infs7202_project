@@ -15,13 +15,11 @@ use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends BaseController
 {
-    public function logIn()
-    {
-        return null;
-    }
+
     /**
      * @param $id
      * @return Response
@@ -39,37 +37,28 @@ class UserController extends BaseController
         ));
     }
 
+
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @Route("user/new", name="new_user")
+     * @return Response
+     * @Route("/myhome", name="show_user")
      */
-    public function newUser(Request $request)
+    public function showUser()
     {
         $this->start();
-        $user = new User();
-        $form = $this->createForm(UserType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $user->setUserName($form->get('userName')->getData());
-            $user->setAccountBalance($form->get('accountBalance')->getData());
-            $em->persist($user);
-            $em->flush();
-            return new Response("You've created a new user! User ID: " . $user->getId());
-        }
-        return $this->render("user.html.twig", array(
-            'form' => $form->createView(),
-            'navs' => $this->navs
-        ));
+        $user = $this->getUser();
+        $user_name = $user->getUserName();
+        $imgs = $user->getPhotos();
+        return $this->render('user/user_index.html.twig', array('username' => $user_name,
+            'navs' => $this->navs, 'imgs' => $imgs));
     }
+
 
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @Route("/user/{id}/new-photo", name="new_photo")
+     * @Route("/new-photo", name="new_photo")
      */
-    public function newPhoto(Request $request, $id)
+    public function newPhoto(Request $request)
     {
 
         //build the form
@@ -80,8 +69,7 @@ class UserController extends BaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //get current user
-            $users = $this->getDoctrine()->getRepository(User::class);
-            $cUser = $users->findOneBy(array('id' => $id));
+            $cUser = $this->getUser();
             $photo->setImageFile($form->get('imageFile')->getData());
             $photo->setImageName($form->get('imageName')->getData());
             $photo->setPrice($form->get('price')->getData());
@@ -90,12 +78,14 @@ class UserController extends BaseController
             $em = $this->getDoctrine()->getManager();
             $em->persist($photo);
             $em->flush();
+//            $this->redirectToRoute('show_user');
             return new Response("You've uploaded a new photo! Photo name: " . $photo->getImageName());
         }
         $this->start();
-        return $this->render("user.html.twig", array(
+        return $this->render("user/user_upload.html.twig", array(
             'form' => $form->createView(),
-            'navs' => $this->navs
+            'navs' => $this->navs,
+            'username' => $this->getUser()->getUsername()
         ));
 
     }

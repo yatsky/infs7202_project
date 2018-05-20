@@ -25,12 +25,27 @@
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         {% for nav in navs %}
+                            {# process the nav input#}
                             {% if " " in nav %}
                                 {% set temp =  nav | replace({' ':''}) %}
                             {% else %}
                                 {% set temp = nav %}
                             {% endif %}
-                            <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
+
+                            {# Display the nav bar accordingly#}
+                            {% if app.user == null %}
+                                {% if "LogOut" not in temp %}
+                                    <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
+                                {% endif %}
+                            {% else %}
+                                {% if "Home" in nav %}
+                                    <li><a href="{{ path('show_user') }}">{{ nav }}</a></li>
+                                {% else %}
+                                    {% if "SignIn" not in temp and "Register" not in temp %}
+                                        <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>

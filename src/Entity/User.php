@@ -5,10 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="Email already taken")
+ * @UniqueEntity(fields="username", message="Username already taken")
  */
 class User implements UserInterface, \Serializable
 {
@@ -21,9 +26,22 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
-    private $user_name;
+    private $username;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=4096)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
+    private $email;
     /**
      * @ORM\Column(type="integer")
      */
@@ -44,15 +62,37 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getUserName(): ?string
+    public function getUsername(): ?string
     {
-        return $this->user_name;
+        return $this->username;
     }
 
-    public function setUserName(string $user_name): self
+    public function setUsername(string $username): self
     {
-        $this->user_name = $user_name;
+        $this->username = $username;
 
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
         return $this;
     }
 
@@ -64,7 +104,6 @@ class User implements UserInterface, \Serializable
     public function setAccountBalance(int $account_balance): self
     {
         $this->account_balance = $account_balance;
-
         return $this;
     }
 
@@ -103,23 +142,23 @@ class User implements UserInterface, \Serializable
     {
         return serialize(array(
             $this->id,
-            $this->getUserName()
+            $this->username,
+            $this->password
         ));
     }
 
     public function unserialize($serialized)
     {
-        // TODO: Implement unserialize() method.
+        list(
+            $this->id,
+            $this->username,
+            $this->password
+            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
-    }
-
-    public function getPassword()
-    {
-        // TODO: Implement getPassword() method.
+        return array('ROLE_USER');
     }
 
     public function getSalt()
@@ -131,6 +170,5 @@ class User implements UserInterface, \Serializable
     {
         // TODO: Implement eraseCredentials() method.
     }
-
 
 }

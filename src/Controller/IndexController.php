@@ -19,7 +19,7 @@ class IndexController extends BaseController
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/home", name="index")
+     * @Route("/home", name="homepage")
      */
     public function showIndex()
     {
@@ -35,19 +35,6 @@ class IndexController extends BaseController
      */
     public function redirectHome()
     {
-        return $this->redirectToRoute("index");
-    }
-
-    /**
-     * @Route("signin", name="sign_in")
-     */
-    public function signIn()
-    {
-        $this->start();
-        $form = $this->createForm(UserType::class);
-        return $this->render("register.html.twig", array(
-            'form' => $form->createView(),
-            'navs' => $this->navs
-        ));
+        return $this->redirectToRoute("homepage");
     }
 }

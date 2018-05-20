@@ -1,6 +1,7 @@
-{% extends "home.html.twig" %}
+{% extends "user/user_index.html.twig" %}
 
 {% block body %}
+    {{ parent() }}
     <div>
         {{ form_start(form) }}
         {{ form_widget(form) }}
