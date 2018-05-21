@@ -16,7 +16,7 @@
                     <div class="row">
                         {% for img in imgs %}
                             <div class="col l6 m6 s12 card-image">
-                                <p class="z-depth-1">{{ img.getPhotoName }} Price: {{ img.getPrice }}</p>
+                                <p class="z-depth-1">Title: {{ img.getPhotoName }} | Price: {{ img.getPrice }}</p>
                                 <p>Uploaded by {{ img.owner.username }}</p>
                                 <a class="modal-trigger view-comments" href="#bottom-modal">
                                     <img src="{{ vich_uploader_asset(img, 'imageFile') }}" id="{{ img.getId }}"
@@ -40,7 +40,8 @@
                                             view comments function on both of these#}
                                             <a class="modal-trigger waves-effect waves-light btn view-comments"
                                                href="#bottom-modal"
-                                               id="{{ img.getId }}">View comments</a>
+                                               id="{{ img.getId }}">comments<i
+                                                        class="material-icons right">view_quilt</i></a>
                                         </div>
                                     </div>
                                 </div>

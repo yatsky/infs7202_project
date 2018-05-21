@@ -6,7 +6,7 @@
     </div>
     <div>
         <a class="waves-effect waves-light btn" href="{{ path('new_photo') }}">
-            Upload Photo
+            Upload Photo <i class="material-icons right">file_upload</i>
         </a>
     </div>
 
@@ -14,7 +14,7 @@
         My Photos
     </h2>
     <div>
-        <a class="waves-effect waves-light btn ajax">List my photos</a>
+        <a class="waves-effect waves-light btn ajax">List my photos <i class="material-icons right">view_quilt</i></a>
         <div id="ajax-results"></div>
     </div>
     <div class="card">
@@ -29,11 +29,13 @@
                     <div class="row">
                         {% for img in imgs %}
                             <div class="col l6 m6 card-image">
-                                <h3>{{ img.getPhotoName }} Price: {{ img.getPrice }}</h3>
+                                <h3>Title: {{ img.getPhotoName }} | Price: {{ img.getPrice }}</h3>
                                 <img src="{{ vich_uploader_asset(img, 'imageFile') }}"
                                      alt="{{ img.getUpdateTime | date('Y-m-d') }}">
                                 <a class="waves-effect waves-light btn"
-                                   href="{{ path('delete_one', { 'id': img.getId }) }}">Delete this photo</a>
+                                   href="{{ path('delete_one', { 'id': img.getId }) }}">Delete this photo
+                                    <i class="material-icons right">delete</i>
+                                </a>
                             </div>
                         {% endfor %}
                     </div>
@@ -64,7 +66,7 @@
                         var photoPrices = data.photoPrices;
                         var output = "";
                         for (var i = 0; i < (photoNames.length); i++) {
-                            output = "<tr><td>" + photoNames[i] + "</td><td>" + photoPrices + "</td><tr>";
+                            output = output + "<tr><td>" + photoNames[i] + "</td><td>" + photoPrices[i] + "</td><tr>";
                         }
                         $("div#ajax-results").html("<table><tr><th>Photo</th><th>Price</th></tr>" + output + "</table>");
                     }
