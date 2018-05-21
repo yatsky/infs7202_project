@@ -27,19 +27,24 @@ class CommentController extends BaseController
     {
 
         if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
-            $em = $this->getDoctrine()->getManager();
-            $photoRepo = $em->getRepository(Photo::class);
-            $photo = $photoRepo->findOneBy(array('id' => $request->get('id')));
+            if (!is_null($this->getUser())) {
+                $em = $this->getDoctrine()->getManager();
+                $photoRepo = $em->getRepository(Photo::class);
+                $photo = $photoRepo->findOneBy(array('id' => $request->get('id')));
 
-            $comment = new Comment();
+                $comment = new Comment();
 
-            $comment->setPhoto($photo);
-            $comment->setUser($this->getUser());
-            $comment->setContent($request->get('comment'));
-            $em->persist($comment);
-            $em->flush();
-            $arrData = ["comment" => "added successfully!"];
-            return new JsonResponse($arrData);
+                $comment->setPhoto($photo);
+                $comment->setUser($this->getUser());
+                $comment->setContent($request->get('comment'));
+                $em->persist($comment);
+                $em->flush();
+                $arrData = ["comment" => "added successfully!"];
+                return new JsonResponse($arrData);
+            } else {
+                return $this->redirectToRoute("signin");
+            }
+
         }
         return $this->redirectToRoute('homepage');
     }

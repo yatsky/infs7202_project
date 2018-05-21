@@ -101,9 +101,11 @@
                         $("div#ajax-results-show-comments").html("<table>" + output + "</table>");
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(XMLHttpRequest);
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
+                        // console.log(XMLHttpRequest);
+                        // alert("Status: " + textStatus);
+                        // alert("Error: " + errorThrown);
+                        alert("Please sign in first!");
+                        window.location.href = '{{ path('signin') }}';
                     }
                 });
             })
@@ -138,8 +140,10 @@
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         console.log(XMLHttpRequest);
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
+                        // alert("Status: " + textStatus);
+                        // alert("Error: " + errorThrown);
+                        alert("Please sign in first!");
+                        window.location.href = '{{ path('signin') }}';
                     }
                 });
             })
