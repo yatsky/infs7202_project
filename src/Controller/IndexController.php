@@ -29,7 +29,7 @@ class IndexController extends BaseController
         return $this->render("home.html.twig", array(
             "navs" => $this->navs,
             "imgs" => $this->imgs,
-            "test" => sizeof($this->imgs)
+//            "test" => sizeof($this->imgs)
         ));
     }
 
