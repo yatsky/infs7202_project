@@ -25,8 +25,12 @@ class IndexController extends BaseController
     {
         $this->start();
         $photoRepo = $this->getDoctrine()->getRepository(Photo::class);
-        $this->imgs = $photoRepo->loadSomePhotos(10);
-        return $this->render("home.html.twig", array("navs"=>$this->navs, "imgs"=>$this->imgs));
+        $this->imgs = $photoRepo->findAll();
+        return $this->render("home.html.twig", array(
+            "navs" => $this->navs,
+            "imgs" => $this->imgs,
+            "test" => sizeof($this->imgs)
+        ));
     }
 
     /**

@@ -9,6 +9,7 @@
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <!--Import materialize.css-->
             <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css" media="screen,projection"/>
+            <link type="text/css" rel="stylesheet" href="/materialize/css/style.css" media="screen,projection"/>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <!--Let browser know website is optimized for mobile-->
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -39,7 +40,8 @@
                                 {% endif %}
                             {% else %}
                                 {% if "Home" in nav %}
-                                    <li><a href="{{ path('show_user') }}">{{ nav }}</a></li>
+                                    <li><a href="{{ path('homepage') }}">{{ nav }}</a></li>
+                                    <li><a href="{{ path('show_user') }}">My Page</a></li>
                                 {% else %}
                                     {% if "SignIn" not in temp and "Register" not in temp %}
                                         <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
@@ -56,12 +58,28 @@
     <ul class="sidenav fixed" id="mobile-demo">
         <a href="/" class="brand-logo">Phoit</a>
         {% for nav in navs %}
+            {# process the nav input#}
             {% if " " in nav %}
                 {% set temp =  nav | replace({' ':''}) %}
             {% else %}
                 {% set temp = nav %}
             {% endif %}
-            <li><a href="{{ temp | lower }}">{{ nav }}</a></li>
+
+            {# Display the nav bar accordingly#}
+            {% if app.user == null %}
+                {% if "LogOut" not in temp %}
+                    <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
+                {% endif %}
+            {% else %}
+                {% if "Home" in nav %}
+                    <li><a href="{{ path('homepage') }}">{{ nav }}</a></li>
+                    <li><a href="{{ path('show_user') }}">My Page</a></li>
+                {% else %}
+                    {% if "SignIn" not in temp and "Register" not in temp %}
+                        <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
         {% endfor %}
     </ul>
 
@@ -74,13 +92,18 @@
             <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
             <script>
                 //initialize select options in forms
-                $(document).ready(function () {
-                    $('select').formSelect();
-                });
-                //initialize sidenav
-                $(document).ready(function () {
-                    $('.sidenav').sidenav();
-                });
+                // $(document).ready(function () {
+                //     $('select').formSelect();
+                // });
+                // //initialize sidenav
+                // $(document).ready(function () {
+                //     $('.sidenav').sidenav();
+                // });
+                // $(document).ready(function(){
+                //     $('.modal').modal();
+                // });
+                // Initialize everything in Materialize
+                M.AutoInit();
             </script>
         {% endblock %}
     </body>

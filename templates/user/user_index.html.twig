@@ -2,17 +2,74 @@
 
 {% block body %}
     <div>
-        <h1>Welcome! {{ username }}</h1>
+        <h1 class="z-depth-5">Welcome! {{ username }}</h1>
     </div>
     <div>
-        <a href="{{ path('new_photo') }}">
+        <a class="waves-effect waves-light btn" href="{{ path('new_photo') }}">
             Upload Photo
         </a>
     </div>
-    <h2>
+
+    <h2 class="z-depth-3">
         My Photos
     </h2>
-    <div class="card">
-        {{ parent() }}
+    <div>
+        <a class="waves-effect waves-light btn ajax">List my photos</a>
+        <div id="ajax-results"></div>
     </div>
+    <div class="card">
+        {% if imgs is defined %}
+            {% if imgs|length == 0 %}
+                <div>
+                    <p>There is no photos in your repository.</p>
+                    <p>Considered <a href="{{ path('new_photo') }}">upload one.</a></p>
+                </div>
+            {% else %}
+                <div class="card">
+                    <div class="row">
+                        {% for img in imgs %}
+                            <div class="col l6 m6 card-image">
+                                <h3>{{ img.getPhotoName }} Price: {{ img.getPrice }}</h3>
+                                <img src="{{ vich_uploader_asset(img, 'imageFile') }}"
+                                     alt="{{ img.getUpdateTime | date('Y-m-d') }}">
+                                <a class="waves-effect waves-light btn"
+                                   href="{{ path('delete_one', { 'id': img.getId }) }}">Delete this photo</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script language="JavaScript">
+        $(document).ready(function () {
+            $(".ajax").on('click', function (event) {
+                $.ajax({
+                    url: '{{ (path('list_photos')) }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'content': 'test comment'
+                    },
+                    async: true,
+
+                    success: function (data, status) {
+                        console.log(data);
+                        var photoNames = data.photoNames;
+                        var photoPrices = data.photoPrices;
+                        var output = "";
+                        for (var i = 0; i < (photoNames.length); i++) {
+                            output = "<tr><td>" + photoNames[i] + "</td><td>" + photoPrices + "</td><tr>";
+                        }
+                        $("div#ajax-results").html("<table><tr><th>Photo</th><th>Price</th></tr>" + output + "</table>");
+                    }
+                })
+            })
+        });
+    </script>
 {% endblock %}

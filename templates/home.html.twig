@@ -1,18 +1,148 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+
     <article>
-        {% for img in imgs %}
-            <div class="card-image">
-                <h1>{{ img.getImageName }}</h1>
-                <img src="{{ vich_uploader_asset(img, 'imageFile') }}" alt="{{ img.getUpdateTime | date('Y-m-d') }}"
-                     style="width: 100%">
-                <ul>
-                    {% for name in img.getImageName %}
-                        <li>{{ Name | upper }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endfor %}
+        {% if imgs is defined %}
+            {% if imgs|length == 0 %}
+                <div>
+                    <p>{{ test }}</p>
+                    <h2 class="z-depth-4">Oooooooops!</h2>
+                    <p>There is no photos in the repository.</p>
+                    <p>Considered <a href="{{ path('new_photo') }}">upload one</a> to contribute!</p>
+                </div>
+            {% else %}
+                <div class="card">
+                    <div class="row">
+                        {% for img in imgs %}
+                            <div class="col l6 m6 card-image">
+                                <p class="z-depth-1">{{ img.getPhotoName }} Price: {{ img.getPrice }}</p>
+                                <p>Uploaded by {{ img.owner.username }}</p>
+                                <a class="modal-trigger view-comments" href="#bottom-modal">
+                                    <img src="{{ vich_uploader_asset(img, 'imageFile') }}" id="{{ img.getId }}"
+                                         alt="{{ img.getUpdateTime | date('Y-m-d') }}">
+                                </a>
+                                {# add comment input and submit#}
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <i class="material-icons prefix">mode_edit</i>
+                                            <textarea id="comment_{{ img.getId }}"
+                                                      class="materialize-textarea"></textarea>
+                                            <label for="icon_prefix2">Comment</label>
+                                        </div>
+                                    </div>
+                                    <a class="btn waves-effect waves-light submit-comment"
+                                       id="submit_{{ img.getId }}"
+                                       href="{{ path('add_comment') }}"
+                                       name="action">Submit Comment
+                                        <i class="material-icons right">send</i>
+                                    </a>
+                                </div>
+                                {# this button and the image share the same id attribute so that it is easy to call
+                                view comments function on both of these#}
+                                <a class="modal-trigger waves-effect waves-light btn view-comments"
+                                   href="#bottom-modal"
+                                   id="{{ img.getId }}">View comments</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
     </article>
+    <div id="bottom-modal" class="modal bottom-sheet">
+        <div class="modal-content">
+            <h4>Comments</h4>
+            <div id="ajax-results-show-comments"></div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <!-- Pop up for successfully leaving a comment -->
+    <div id="comment-success-confirmation" class="modal">
+        <div class="modal-content">
+            <h4>Congratulations!</h4>
+            <p>You've successfully made a comment!</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+        </div>
+    </div>
+
 {% endblock %}
+
+{% block javascripts %}
+    {# view comments of a photo#}
+    <script language="JavaScript">
+        $(document).ready(function () {
+            $(".view-comments").on('click', function (event) {
+                console.log(event.target.id);
+                // event.preventDefault();
+                $.ajax({
+                    url: '{{ (path('view_comments')) }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'id': event.target.id
+                    },
+                    async: true,
+
+                    success: function (data, status) {
+                        console.log(data);
+                        var output = "";
+                        for (var i = 0; i < data.comments.length; i++) {
+                            output = output + "<tr><td>" + data.comments[i] + "</td></tr>";
+                        }
+                        $("div#ajax-results-show-comments").html("<table>" + output + "</table>");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest);
+                        alert("Status: " + textStatus);
+                        alert("Error: " + errorThrown);
+                    }
+                });
+            })
+        });
+    </script>
+
+    <script>
+        {# add a comment to a photo#}
+        $(document).ready(function () {
+            $(".submit-comment").on('click', function (event) {
+                event.preventDefault();
+                console.log(document.getElementById("comment_" + event.target.id.split("_")[1]).value);
+                var id = event.target.id.split("_")[1];
+                var comment = document.getElementById("comment_" + id).value;
+                $.ajax({
+                    url: '{{ (path('add_comment')) }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'id': id,
+                        'comment': comment
+                    },
+                    async: true,
+
+                    success: function (data, status) {
+                        console.log(data);
+                        var output = "";
+                        output = data.comment;
+                        var modal_instance = M.Modal.getInstance(document.getElementById("comment-success-confirmation"));
+                        modal_instance.open();
+                        // $("div#ajax-results-the-comment").html("<table>" + output + "</table>" );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest);
+                        alert("Status: " + textStatus);
+                        alert("Error: " + errorThrown);
+                    }
+                });
+            })
+        });
+    </script>
+    {{ parent() }}
+{% endblock %}
+

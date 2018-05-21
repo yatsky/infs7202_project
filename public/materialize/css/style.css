@@ -1,0 +1,18 @@
+h1, h2 {
+    background: darkcyan;
+    color: #FFFFFF;
+
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    font-size: medium;
+}
+
+#photo_imageFile:before {
+    content: ' ';
+    display: block;
+}

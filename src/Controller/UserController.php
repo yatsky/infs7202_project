@@ -12,6 +12,7 @@ use App\Entity\Photo;
 use App\Entity\User;
 use App\Form\PhotoType;
 use App\Form\UserType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,23 +20,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends BaseController
 {
-
-    /**
-     * @param $id
-     * @return Response
-     * @Route("/user/{id}", name="user", requirements={"id"="\d+"})
-     */
-    public function showUserIndex($id)
-    {
-        parent::start();
-        $users = $this->getDoctrine()->getRepository(User::class);
-        if ($users->findOneBy(array('id' => $id)) == null) {
-            return new Response("No such user!");
-        }
-        return $this->render("home.html.twig", array(
-            'navs' => $this->navs, 'imgs' => $this->imgs
-        ));
-    }
 
 
     /**
@@ -71,15 +55,17 @@ class UserController extends BaseController
             //get current user
             $cUser = $this->getUser();
             $photo->setImageFile($form->get('imageFile')->getData());
-            $photo->setImageName($form->get('imageName')->getData());
+            $photo->setPhotoName($form->get('photoName')->getData());
+            // no need to set VICH related fields
+//            $photo->setImageName($form->get('imageName')->getData());
             $photo->setPrice($form->get('price')->getData());
-            $photo->setImageSize($form->get('imageSize')->getData());
+//            $photo->setImageSize($photo->getImageFile()->getSize());
             $photo->setOwner($cUser);
             $em = $this->getDoctrine()->getManager();
             $em->persist($photo);
             $em->flush();
-//            $this->redirectToRoute('show_user');
-            return new Response("You've uploaded a new photo! Photo name: " . $photo->getImageName());
+            $this->redirectToRoute('show_user');
+//            return new Response("You've uploaded a new photo! Photo name: " . $photo->getImageName());
         }
         $this->start();
         return $this->render("user/user_upload.html.twig", array(
@@ -90,15 +76,33 @@ class UserController extends BaseController
 
     }
 
+    /**
+     * @Route("/myhome/listphotos", name="list_photos")
+     */
 
-    public function addComment($id)
+    public function listPhotos(Request $request)
     {
-
+        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
+            $photos = $this->getUser()->getPhotos();
+            $photoNames = array();
+            $photoPrices = array();
+            foreach ($photos as $photo) {
+                array_push($photoNames, $photo->getPhotoName());
+                array_push($photoPrices, $photo->getPrice());
+            }
+            $arrData = [
+                'photoNames' => $photoNames,
+                'photoPrices' => $photoPrices
+            ];
+            return new JsonResponse($arrData);
+        }
+        return $this->render('home.html.twig');
     }
+
     /**
      * @param $id
      * @return Response
-     * @Route("/user/{user_id}/delete/{id}", name="delete_one", requirements={"id"="\d+"})
+     * @Route("/myhome/delete/{id}", name="delete_one", requirements={"id"="\d+"})
      */
     public function deleteOnePhoto($id)
     {
@@ -107,6 +111,8 @@ class UserController extends BaseController
         $photo = $repo->findOneBy(['id' => $id]);
         $em->remove($photo);
         $em->flush();
-        return new Response("You deleted one photo. " . $photo->getPhotoName());
+        return $this->redirectToRoute('show_user');
     }
+
+
 }
