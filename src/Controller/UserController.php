@@ -20,8 +20,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends BaseController
 {
-
-
     /**
      * @return Response
      * @Route("/myhome", name="show_user")
@@ -64,7 +62,7 @@ class UserController extends BaseController
             $em = $this->getDoctrine()->getManager();
             $em->persist($photo);
             $em->flush();
-            $this->redirectToRoute('show_user');
+            return $this->redirectToRoute('show_user');
 //            return new Response("You've uploaded a new photo! Photo name: " . $photo->getImageName());
         }
         $this->start();
