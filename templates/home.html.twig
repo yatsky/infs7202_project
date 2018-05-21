@@ -25,25 +25,26 @@
                                 {# add comment input and submit#}
                                 <div class="row">
                                     <div class="row">
-                                        <div class="input-field col s6">
+                                        <div class="input-field l3 s6 container">
                                             <i class="material-icons prefix">mode_edit</i>
                                             <textarea id="comment_{{ img.getId }}"
                                                       class="materialize-textarea"></textarea>
                                             <label for="icon_prefix2">Comment</label>
+                                            <a class="btn waves-effect waves-light submit-comment"
+                                               id="submit_{{ img.getId }}"
+                                               href="{{ path('add_comment') }}"
+                                               name="action">Submit Comment
+                                                <i class="material-icons right">send</i>
+                                            </a>
+                                            {# this button and the image share the same id attribute so that it is easy to call
+                                            view comments function on both of these#}
+                                            <a class="modal-trigger waves-effect waves-light btn view-comments"
+                                               href="#bottom-modal"
+                                               id="{{ img.getId }}">View comments</a>
                                         </div>
                                     </div>
-                                    <a class="btn waves-effect waves-light submit-comment"
-                                       id="submit_{{ img.getId }}"
-                                       href="{{ path('add_comment') }}"
-                                       name="action">Submit Comment
-                                        <i class="material-icons right">send</i>
-                                    </a>
                                 </div>
-                                {# this button and the image share the same id attribute so that it is easy to call
-                                view comments function on both of these#}
-                                <a class="modal-trigger waves-effect waves-light btn view-comments"
-                                   href="#bottom-modal"
-                                   id="{{ img.getId }}">View comments</a>
+
                             </div>
                         {% endfor %}
                     </div>
