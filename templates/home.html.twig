@@ -16,11 +16,12 @@
                     <div class="row">
                         {% for img in imgs %}
                             <div class="col l6 m6 s12 card-image">
-                                <p class="z-depth-1">Title: {{ img.getPhotoName }} | Price: {{ img.getPrice }}</p>
+                                <p>Title: {{ img.getPhotoName }} | Price: {{ img.getPrice }}</p>
                                 <p>Uploaded by {{ img.owner.username }}</p>
                                 <a class="modal-trigger view-comments" href="#bottom-modal">
                                     <img src="{{ vich_uploader_asset(img, 'imageFile') }}" id="{{ img.getId }}"
-                                         alt="{{ img.getUpdateTime | date('Y-m-d') }}">
+                                         alt="{{ img.getUpdateTime | date('Y-m-d') }}"
+                                         style="height: inherit">
                                 </a>
                                 {# add comment input and submit#}
                                 <div class="row">

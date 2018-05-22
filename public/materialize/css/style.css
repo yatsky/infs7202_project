@@ -12,7 +12,7 @@ label {
     font-size: medium;
 }
 
-#photo_imageFile:before {
-    content: ' ';
-    display: block;
-}
+/*#photo_imageFile:before {*/
+/*content: ' ';*/
+/*display: block;*/
+/*}*/
