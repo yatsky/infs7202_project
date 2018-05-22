@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import urllib.request as request
 import requests
 import os
@@ -39,4 +40,3 @@ with requests.session() as s:
                 request.urlretrieve(uri, "{}{}.jpg".format(save_path, title))
             else:
                 continue
-
