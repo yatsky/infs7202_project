@@ -23,7 +23,7 @@ class BaseController extends Controller
     protected function start()
     {
         //navigation options in the nav bar
-        $this->navs = ["Home", "Register", "Sign In", "Log Out"];
+        $this->navs = ["Home", "Register", "Sign In", "Log Out", "NASA Images"];
         // array of images (links) to be fetched from the database.
 //        $this->imgs= array("https://ia.media-imdb.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SY1000_CR0,0,674,1000_AL_.jpg");
 

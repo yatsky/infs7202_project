@@ -10,7 +10,9 @@ namespace App\Controller;
 
 
 use App\Entity\Photo;
+use App\Entity\User;
 use App\Form\UserType;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -34,11 +36,31 @@ class IndexController extends BaseController
     }
 
     /**
-     * @Route("/")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/nasaimages", name="nasa_images")
      */
-    public function redirectHome()
+    public function nasa()
     {
-        return $this->redirectToRoute("homepage");
+        exec("python ./scripts/nasa.py");
+        $this->start();
+        $directory = "./images/nasa/";
+        $images = glob($directory . "*.jpg");
+        $imgs = array();
+        $imgNames = array();
+        foreach ($images as $image) {
+            $file = new File($image);
+            // end function requires a reference
+            $temp = explode("/", $image);
+            $name = end($temp);
+            array_push($imgs, $file);
+            array_push($imgNames, $name);
+        }
+        return $this->render('nasa.html.twig', array(
+            'imgs' => $imgs,
+            'navs' => $this->navs,
+            'test' => sizeof($images),
+            'imgNames' => $imgNames
+        ));
     }
+
+
 }

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {#<div>#}
+    {#{{ test }}#}
+    {#</div>#}
+    {#<div class="container row">#}
+    {#{% set counter=0 %}#}
+    {#{% for img in imgs %}#}
+    {#<div class="card col l6">#}
+    {#<h6>#}
+    {#{{ imgNames[counter] }}#}
+    {#</h6>#}
+    {#<img class="col card-image l6" src="{{ img }}">#}
+    {#</div>#}
+    {#{% set counter = counter + 1 %}#}
+    {#{% endfor %}#}
+    {#</div>#}
+
+
+    <div class="row">
+        <div class="col l12 s12 m7">
+            {% set counter=0 %}
+            {% for img in imgs %}
+                <div class="card col l6">
+                    <div class="card-image">
+                        <img src="{{ img }}">
+                        <span class="card-title">{{ imgNames[counter] }}</span>
+                    </div>
+                    {#<div class="card-content">#}
+                    {#<p>I am a very simple card. I am good at containing small bits of information.#}
+                    {#I am convenient because I require little markup to use effectively.</p>#}
+                    {#</div>#}
+                    {#<div class="card-action">#}
+                    {#<a href="#">This is a link</a>#}
+                    {#</div>#}
+                </div>
+                {% set counter = counter + 1 %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
