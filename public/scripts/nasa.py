@@ -29,14 +29,19 @@ with requests.session() as s:
 
     # first page
     for page in range(1):
+        counter = 1
         r = s.get(api + 'query/ubernodes.json',
                 params={'page': page, 'unType[]': 'image'})
         for ubernode in r.json()['ubernodes']:
-            nid = ubernode['nid']
-            r = s.get(api + 'record/node/{}.json'.format(nid))
-            title = r.json()['ubernode']['title']
-            if is_ascii_only(title):
-                uri = r.json()['images'][0]['uri'].replace('public:/', public, 1)
-                request.urlretrieve(uri, "{}{}.jpg".format(save_path, title))
+            if counter > 10:
+                break
             else:
-                continue
+                nid = ubernode['nid']
+                r = s.get(api + 'record/node/{}.json'.format(nid))
+                title = r.json()['ubernode']['title']
+                if is_ascii_only(title):
+                    uri = r.json()['images'][0]['uri'].replace('public:/', public, 1)
+                    request.urlretrieve(uri, "{}{}.jpg".format(save_path, title))
+                else:
+                    continue
+            counter += 1
