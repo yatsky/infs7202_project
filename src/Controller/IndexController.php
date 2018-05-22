@@ -40,7 +40,7 @@ class IndexController extends BaseController
      */
     public function nasa()
     {
-        $cmd = escapeshellcmd("sudo python3 ./scripts/nasa.py");
+        $cmd = escapeshellcmd("python3 ./scripts/nasa.py");
         shell_exec($cmd);
         $this->start();
         $directory = "./images/nasa/";
