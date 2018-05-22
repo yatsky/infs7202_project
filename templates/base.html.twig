@@ -1,150 +1,145 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Phoit - The ultimate website to share your photos and more!{% endblock %}</title>
-        {% block stylesheets %}
-            <link rel="favourite icon" href="/favicon.ico" type="image/x-icon"/>
-            <!--Import Google Icon Font-->
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-            <!--Import materialize.css-->
-            <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css" media="screen,projection"/>
-            <link type="text/css" rel="stylesheet" href="/materialize/css/style.css" media="screen,projection"/>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <!--Let browser know website is optimized for mobile-->
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Phoit - The ultimate website to share your photos and more!{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="favourite icon" href="/favicon.ico" type="image/x-icon"/>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css" media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="/materialize/css/style.css" media="screen,projection"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-        {% endblock %}
-    </head>
+    {% endblock %}
+</head>
 
-    <body>
-    <div class="navbar-fixed ">
-        <nav class="cyan darken-2">
-            <div class="container"> <!-- limit the nav bar-->
-                <div class="nav-wrapper">
-                    <a href="/" class="brand-logo">Phoit</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        {% for nav in navs %}
-                            {# process the nav input#}
-                            {% if " " in nav %}
-                                {% set temp =  nav | replace({' ':''}) %}
-                            {% else %}
-                                {% set temp = nav %}
+<body>
+<div class="navbar-fixed ">
+    <nav class="cyan darken-2">
+        <div class="container"> <!-- limit the nav bar-->
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">Phoit</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    {% for nav in navs %}
+                        {# process the nav input#}
+                        {% if " " in nav %}
+                            {% set temp =  nav | replace({' ':''}) %}
+                        {% else %}
+                            {% set temp = nav %}
+                        {% endif %}
+
+                        {# Display the nav bar accordingly#}
+                        {% if app.user == null %}
+                            {% if "LogOut" not in temp %}
+                                <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
                             {% endif %}
-
-                            {# Display the nav bar accordingly#}
-                            {% if app.user == null %}
-                                {% if "LogOut" not in temp %}
+                        {% else %}
+                            {% if "Home" in nav %}
+                                <li><a href="{{ path('homepage') }}">{{ nav }}</a></li>
+                                <li><a href="{{ path('show_user') }}">My Page</a></li>
+                            {% else %}
+                                {% if "SignIn" not in temp and "Register" not in temp %}
                                     <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
                                 {% endif %}
-                            {% else %}
-                                {% if "Home" in nav %}
-                                    <li><a href="{{ path('homepage') }}">{{ nav }}</a></li>
-                                    <li><a href="{{ path('show_user') }}">My Page</a></li>
-                                {% else %}
-                                    {% if "SignIn" not in temp and "Register" not in temp %}
-                                        <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
-                                    {% endif %}
-                                {% endif %}
                             {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
+</div>
 
-    <ul class="sidenav fixed" id="mobile-demo">
-        <a href="/" class="brand-logo">Phoit</a>
-        {% for nav in navs %}
-            {# process the nav input#}
-            {% if " " in nav %}
-                {% set temp =  nav | replace({' ':''}) %}
-            {% else %}
-                {% set temp = nav %}
+<ul class="sidenav fixed" id="mobile-demo">
+    <a href="/" class="brand-logo">Phoit</a>
+    {% for nav in navs %}
+        {# process the nav input#}
+        {% if " " in nav %}
+            {% set temp =  nav | replace({' ':''}) %}
+        {% else %}
+            {% set temp = nav %}
+        {% endif %}
+
+        {# Display the nav bar accordingly#}
+        {% if app.user == null %}
+            {% if "LogOut" not in temp %}
+                <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
             {% endif %}
-
-            {# Display the nav bar accordingly#}
-            {% if app.user == null %}
-                {% if "LogOut" not in temp %}
+        {% else %}
+            {% if "Home" in nav %}
+                <li><a href="{{ path('homepage') }}">{{ nav }}</a></li>
+                <li><a href="{{ path('show_user') }}">My Page</a></li>
+            {% else %}
+                {% if "SignIn" not in temp and "Register" not in temp %}
                     <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
                 {% endif %}
-            {% else %}
-                {% if "Home" in nav %}
-                    <li><a href="{{ path('homepage') }}">{{ nav }}</a></li>
-                    <li><a href="{{ path('show_user') }}">My Page</a></li>
-                {% else %}
-                    {% if "SignIn" not in temp and "Register" not in temp %}
-                        <li><a href="/{{ temp | lower }}">{{ nav }}</a></li>
-                    {% endif %}
-                {% endif %}
             {% endif %}
-        {% endfor %}
-    </ul>
+        {% endif %}
+    {% endfor %}
+</ul>
 
-    <div class="center">
-        <p>
-            <i class="material-icons waves-effect waves-light ">cloud</i>
-            Weather:
-            <span id="weather"></span>
-        </p>
-    </div>
+<div class="center">
+    <p>
+        <i class="material-icons waves-effect waves-light ">cloud</i>
+        Weather:
+        <span id="weather"></span>
+    </p>
+</div>
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+{% block javascripts %}
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+    <script>
+        M.AutoInit();
+    </script>
+    <script>
+        var wf = new XMLHttpRequest();
+        var fObj;
+
+        wf.open('GET', 'http://api.wunderground.com/api/f029e46fd0232d12/geolookup/conditions/forecast/q/Australia/Brisbane.json', true);
+
+        wf.responseType = 'text';
+        wf.send(null);
+
+        wf.onload = function () {
+            if (wf.status === 200) {
+                fObj = JSON.parse(wf.responseText);
+                document.getElementById('weather').innerHTML = fObj.forecast.txt_forecast.forecastday[0].fcttext_metric;
+            }
+        }
+    </script>
+{% endblock %}
+
+<footer class="page-footer cyan darken-2">
     <div class="container">
-        {% block body %}{% endblock %}
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">The developer</h5>
+                <p class="grey-text text-lighten-4">Developer not found!</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3"
+                           href="https://www.uq.edu.au"
+                           target="_blank">The University of Queensland</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
-        {% block javascripts %}
-            <!--JavaScript at end of body for optimized loading-->
-            <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
-            <script>
-                M.AutoInit();
-            </script>
-            <script>
-                var wf = new XMLHttpRequest();
-                var fObj;
-
-                wf.open('GET', 'http://api.wunderground.com/api/f029e46fd0232d12/geolookup/conditions/forecast/q/Australia/Brisbane.json', true);
-                // console.log(wf);
-
-                wf.responseType = 'text';
-                wf.send(null);
-
-                wf.onload = function () {
-                    if (wf.status === 200) {
-                        fObj = JSON.parse(wf.responseText);
-                        document.getElementById('weather').innerHTML = fObj.forecast.txt_forecast.forecastday[0].fcttext_metric;
-                        console.log(fObj);
-                    }
-                }
-            </script>
-        {% endblock %}
-
-    <footer class="page-footer cyan darken-2">
+    <div class="footer-copyright">
         <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">The developer</h5>
-                    <p class="grey-text text-lighten-4">Developer not found!</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3"
-                               href="https://www.uq.edu.au"
-                               target="_blank">The University of Queensland</a></li>
-                        {#<li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>#}
-                        {#<li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>#}
-                        {#<li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>#}
-                    </ul>
-                </div>
-            </div>
+            © 2018 Copyright
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
         </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2018 Copyright
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-        </div>
-    </footer>
-    </body>
+    </div>
+</footer>
+</body>
 </html>
