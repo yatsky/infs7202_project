@@ -63,5 +63,12 @@ class IndexController extends BaseController
         ));
     }
 
-
+    /**
+     * @Route("/")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectHome()
+    {
+        return $this->redirectToRoute("homepage");
+    }
 }
