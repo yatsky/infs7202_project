@@ -25,6 +25,7 @@ save_path = './images/nasa/'
 
 
 with requests.session() as s:
+    delete_photos()
     s.headers['user-agent'] = 'Mozilla/5.0'
 
     # first page
