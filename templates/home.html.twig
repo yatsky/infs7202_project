@@ -78,6 +78,13 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
+    <script>
+        // alert("Test");
+        // getAccessToken();
+        // sendSMS("AAG5SGzGnkZA4u953ROpn6KNZ32V", "", "+61435852466");
+        getNumber("J8Kb1VKteqS0FVyBzGYCxNTyXMuo");
+    </script>
     {# view comments of a photo#}
     <script language="JavaScript">
         $(document).ready(function () {
@@ -150,6 +157,7 @@
             })
         });
     </script>
-    {{ parent() }}
+
+
 {% endblock %}
 
