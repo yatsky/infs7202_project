@@ -112,5 +112,19 @@ class UserController extends BaseController
         return $this->redirectToRoute('show_user');
     }
 
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/myhome/setphotofree/{id}, name="set_photo_free", requirements={"id"="\d+"})
+     */
+    public function setPhotoFree($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $this->getDoctrine()->getRepository(Photo::class);
+        $photo = $repo->findOneBy(['id' => $id]);
+        $photo->setPrice(0);
+        $em->flush();
+        return $this->redirectToRoute('show_user');
+    }
 
 }

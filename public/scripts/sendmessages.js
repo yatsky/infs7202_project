@@ -35,19 +35,24 @@ function getNumber(accessToken) {
             }
     };
     number_request.open("POST", url, true);
+    // number_request.setRequestHeader("User-Agent", "Rigor API Tester");
+    // number_request.setRequestHeader("Host", "tapi.telstra.com");
+    number_request.setRequestHeader("Accept", "*/*");
     number_request.setRequestHeader("Authorization", "Bearer " + accessToken);
+    // number_request.setRequestHeader("Access-Control", "allow");
     number_request.setRequestHeader("Cache-control", "no-cache");
     number_request.setRequestHeader("Content-type", "application/json");
-    number_request.send(params);
-    number_request.onreadystatechange = function (ev) {
-        if (number_request.status == 200) {
-            return JSON.parse(number_request.responseText)["destinationAddress"];
-        } else {
-            console.log(number_request.status);
-            console.log(number_request.responseText);
-        }
-    };
+    // number_request.setRequestHeader("Content-length", "165");
 
+    // number_request.onreadystatechange = function () {
+    //     if (number_request.status == 200) {
+    //         return JSON.parse(number_request.responseText)["destinationAddress"];
+    //     } else {
+    //         console.log(number_request.status);
+    //         console.log(number_request.responseText);
+    //     }
+    // };
+    number_request.send(params);
 
 }
 
