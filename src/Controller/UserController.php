@@ -115,7 +115,7 @@ class UserController extends BaseController
     /**
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/myhome/setphotofree/{id}, name="set_photo_free", requirements={"id"="\d+"})
+     * @Route("/myhome/setphotofree/{id}", name="set_photo_free", requirements={"id"="\d+"})
      */
     public function setPhotoFree($id)
     {
